@@ -10,7 +10,7 @@ from users.views import register
 admin.autodiscover()
 
 urlpatterns = patterns('',
-   (r'^index/', 'users.views.index'),
+   (r'^$', 'users.views.index'),
    (r'^login/', login),
    (r'^logout/', logout),
    (r'^register/', register),
