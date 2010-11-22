@@ -8,7 +8,6 @@ def typeChoices():
         choices.append((i, pt.name))
         i += 1
     choices.append((i, 'Novo'))
-    print choices
     return choices
 
 type_choices = typeChoices()
@@ -21,7 +20,6 @@ class AddProductForm(forms.Form):
     category = forms.CharField(max_length=100, required=True, initial='', label='Categoria')
     ptype = forms.ChoiceField(choices=type_choices, required=True, initial='', label='Tipo')
     ptype2 = forms.CharField(max_length=100, required=False, initial='', label='Categoria')
-#    image = forms.ImageField(required=True, label='Imagem')
 
 
     def __unicode__(self):

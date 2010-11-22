@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from products.forms import AddProductForm, type_choices
+from products.forms import AddProductForm, type_choices, typeChoices
 from products.models import Brand, Category, ProductType, Product
 
 def addProductPOSTHandler(post_request):
@@ -45,12 +45,9 @@ def addProduct(request, template_name='products/add_product.html'):
    
     user = request.user
 
-#    if not user.is_authenticated() or not user.is_staff():
-#        template_name = 'base/base.html'
-#        return render_to_response(template_name, {'user': user }, context_instance = RequestContext(request))
-    
     new_product = []
     new_ptype = False
+
     if request.method == 'POST':
        addform = AddProductForm(request.POST)
 
@@ -66,8 +63,12 @@ def addProduct(request, template_name='products/add_product.html'):
            if new_request['ptype']:
                new_product = addProductPOSTHandler(new_request)
 
+       if new_product:
+           addform_choices = addform.fields['ptype'].choices
+           addform_choices.append((len(addform_choices), new_product.ptype.name))   
     else:
        addform = AddProductForm()
+
     context = {'user': user, 'addform': addform, 'object': new_product, 'new_ptype': new_ptype }
     return render_to_response(template_name, context, context_instance = RequestContext(request))
 
