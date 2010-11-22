@@ -61,9 +61,14 @@
                 </table>
             </form>
     {% else %}
-         <h2 align="center"> Produto Adicionado! </h2>
-
-         <hr />
+         <h2 align="center"> 
+         {% if not user.is_staff %}
+             Voc&ecirc; n&atilde;o deveria estar aqui... <br>
+             <a href='/index/'> voltar </a>
+         {% else %}
+             Produto Adicionado!
+         {% endif %}
+         </h2><hr />
     {% endif %}
 
 {% endblock %}
