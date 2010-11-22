@@ -1,0 +1,23 @@
+{% extends "basic/base.html" %}
+
+{% block content %}
+    <h3> P&aacute;gina de Login </h3>
+
+    <hr />
+
+    {% if form.errors %}
+    <p class="error" style="color: red;"> Desculpe, nome de usu&aacute;rio ou senha incorretos. </p>
+    {% endif %}
+    <form action='.' method='POST'>
+        {% csrf_token %}
+        <label for="username"> Nome de usu&aacute;rio: </label><input type="text" name="username" value="" id="username" />
+        <label for="password"> Senha: </label><input type="password" name="password" value="" id="password" />
+        <input type="submit" value="login" />
+        <input type="hidden" name="next" value="/index/" />
+
+    <form action='.' method='POST'>
+        {% csrf_token %}
+
+
+{% endblock %}
+

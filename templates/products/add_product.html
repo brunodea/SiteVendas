@@ -1,0 +1,69 @@
+{% extends "basic/base.html" %}
+
+{% block content %}
+    {% if not object and user.is_authenticated and user.is_staff %}
+            <h2 align="center"> Adicionar Produto </h2>
+            <hr />
+
+            {% if addform.error_dict %}
+                <p cstyle="color: red;">Por favor, corrija os erros abaixo.</p>
+            {% endif %}
+
+            <form action="." method="POST">
+            <!-- Token necessário para evitar a duplicação de informação enviada via formulário. -->
+            {% csrf_token %}
+                <table align="center">
+
+                    <tr>
+                        <td align="left"><label for="id_name">Nome:</label></td><td> {{ addform.name }}</td>
+                        {% if addform.name.errors %}
+                           <td style="color: red;">{{ addform.name.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td align="left"><label for="id_price">Pre&ccedil;o:</label></td><td> {{ addform.price }}</td>
+                        {% if addform.price.errors %}
+                            <td style="color: red;">{{ addform.price.errors }}</td>
+                        {% endif %}
+
+                    </tr>
+                    <tr>
+                        <td align="left"><label for="id_units">Numero de Unidades:</label></td><td> {{ addform.units }}</td>
+                        {% if addform.units.errors %}
+                            <td style="color: red;">{{ addform.units.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td align="left"><label for="id_brand">Marca:</label></td><td>{{ addform.brand }}</td>
+                        {% if addform.brand.errors %}
+                            <td style="color: red;">{{ addform.brand.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>                    
+                        <td align="left"><label for="id_category">Categoria:</label></td><td>{{ addform.category }}</td>
+                        {% if addform.category.errors %}
+                            <td style="color: red;">{{ addform.category.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td align="left"><label for="id_ptype">Tipo:</label></td>
+                        {% if not new_ptype %}
+                            <td>{{ addform.ptype }}</td>
+                        {% else %}
+                           <td>{{ addform.ptype2 }}</td>
+                        {% endif %}
+                        {% if addform.ptype.errors %}
+                            <td style="color: red;">{{ addform.ptype.errors }}</td>
+                        {% endif %}
+                    </tr>
+
+                    <tr><td colspan="2"><input type="submit" value="Cadastrar" /></tr></td>
+                </table>
+            </form>
+    {% else %}
+         <h2 align="center"> Produto Adicionado! </h2>
+
+         <hr />
+    {% endif %}
+
+{% endblock %}
