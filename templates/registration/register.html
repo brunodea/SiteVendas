@@ -1,81 +1,85 @@
 {% extends "basic/base.html" %}
 
 {% block content %}
-    {% if not object %}
-        <div class="signup">
-            <h2 align="center"> Create an account </h2>
-            <hr />
+	{% if not object %}
+		<div class="signup">
+			<h2 style="text-align: center">Create an account</h2>
+			<hr />
 
-            {% if regis_form.error_dict %}
-                <p cstyle="color: red;">Por favor, corrija os erros abaixo.</p>
-            {% endif %}
+			{% if regis_form.error_dict %}
+				<p style="color: red;">Por favor, corrija os erros abaixo.</p>
+			{% endif %}
 
-            <form action="." method="POST">
-            <!-- Token necessário para evitar a duplicação de informação enviada via formulário. -->
-            {% csrf_token %}
-                <table align="center">
+			<form action="." method="POST">
+				<!-- Token necessário para evitar a duplicação de informação enviada via formulário. -->
+				{% csrf_token %}
+				<table align="center">
+					<tr>
+						<td><label for="id_username">Username:</label></td><td> {{ regis_form.username }}</td>
+						{% if regis_form.username.errors %}
+							<td style="color: red;">{{ regis_form.username.errors }}</td>
+						{% endif %}
+					</tr>
 
-                    <tr>
-                        <td><label for="id_username">Username:</label></td><td> {{ regis_form.username }}</td>
-                        {% if regis_form.username.errors %}
-                           <td style="color: red;">{{ regis_form.username.errors }}</td>
-                        {% endif %}
-                    </tr>
-                    <tr>
-                        <td><label for="id_password1">Password:</label></td><td> {{ regis_form.password1 }}</td>
-                        {% if regis_form.password1.errors %}
-                            <td style="color: red;">{{ regis_form.password1.errors }}</td>
-                        {% endif %}
+					<tr>
+						<td><label for="id_password1">Password:</label></td><td> {{ regis_form.password1 }}</td>
+						{% if regis_form.password1.errors %}
+							<td style="color: red;">{{ regis_form.password1.errors }}</td>
+						{% endif %}
+					</tr>
 
-                    </tr>
-                    <tr>
-                        <td><label for="id_password2">Password (again):</label></td><td> {{ regis_form.password2 }}</td>
-                        {% if regis_form.password2.errors %}
-                            <td style="color: red;">{{ regis_form.password2.errors }}</td>
-                        {% endif %}
-                    </tr>
-                    <tr>
-                        <td><label for="id_email">Email:</label></td><td>{{ regis_form.email }}</td>
-                        {% if regis_form.email.errors %}
-                            <td style="color: red;">{{ regis_form.email.errors }}</td>
-                        {% endif %}
-                    </tr>
-                    <tr>                    
-                        <td><label for="id_first_name">First Name:</label></td><td>{{ regis_form.first_name }}</td>
-                        {% if regis_form.first_name.errors %}
-                            <td style="color: red;">{{ regis_form.first_name.errors }}</td>
-                        {% endif %}
-                    </tr>
-                    <tr>
-                        <td><label for="id_last_name">Last Name:</label></td><td>{{ regis_form.last_name }}</td>
-                        {% if regis_form.last_name.errors %}
-                            <td style="color: red;">{{ regis_form.last_name.errors }}</td>
-                        {% endif %}
-                    </tr>
-                    <tr>
-                        <td>CPF: </td><td id="cpf_form">{{ signup_form.cpf }}</td>
-                        {% if signup_form.cpf.errors %}
-                            <td style="color: red;">{{ signup_form.cpf.errors }}</td>
-                        {% else %}
-                           {% if cpf_error_form %}
-                              <td style="color: red;">{{ cpf_error_form }}</td>
-                           {% endif %}
-                        {% endif %}               
-                    </tr>
+					<tr>
+						<td><label for="id_password2">Password (again):</label></td><td> {{ regis_form.password2 }}</td>
+						{% if regis_form.password2.errors %}
+							<td style="color: red;">{{ regis_form.password2.errors }}</td>
+						{% endif %}
+					</tr>
 
-                    <tr><td colspan="2"><input type="submit" value="Registrar" /></tr></td>
-                </table>
-            </form>
-        </div>
-    {% else %}
-         <h2 align="center"> Obrigado por ter se registrado! </h2>
+					<tr>
+						<td><label for="id_email">Email:</label></td><td>{{ regis_form.email }}</td>
+						{% if regis_form.email.errors %}
+							<td style="color: red;">{{ regis_form.email.errors }}</td>
+						{% endif %}
+					</tr>
 
-         <hr />
+					<tr>
+						<td><label for="id_first_name">First Name:</label></td><td>{{ regis_form.first_name }}</td>
+						{% if regis_form.first_name.errors %}
+							<td style="color: red;">{{ regis_form.first_name.errors }}</td>
+						{% endif %}
+					</tr>
 
-         <form action="/profile/" method="GET">
-             <center><a href="/login/"> V&aacute; para a p&aacute;gina de login. </a></center>
-         </form>
-    {% endif %}
+					<tr>
+						<td><label for="id_last_name">Last Name:</label></td><td>{{ regis_form.last_name }}</td>
+						{% if regis_form.last_name.errors %}
+							<td style="color: red;">{{ regis_form.last_name.errors }}</td>
+						{% endif %}
+					</tr>
 
+					<tr>
+						<td>CPF: </td><td id="cpf_form">{{ signup_form.cpf }}</td>
+						{% if signup_form.cpf.errors %}
+							<td style="color: red;">{{ signup_form.cpf.errors }}</td>
+						{% else %}
+							{% if cpf_error_form %}
+								<td style="color: red;">{{ cpf_error_form }}</td>
+							{% endif %}
+						{% endif %}
+					</tr>
+
+					<tr>
+						<td colspan="2"><input type="submit" value="Registrar" /></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	{% else %}
+		<h2 style="text-align: center">Obrigado por ter se registrado!</h2>
+
+		<hr />
+
+		<form action="/profile/" method="GET">
+			<center><a href="/login/">Vá para a página de login.</a></center>
+		</form>
+	{% endif %}
 {% endblock %}
-

@@ -1,80 +1,71 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-<html lang="en">
-<head>
-   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<!-- DEPENDÊNCIAS -->
+		{% block style %}
+			<link rel="stylesheet" href="/static/styles/basic/base.css" type="text/css">
+		{% endblock %}
+		<!-- FIM DAS DEPENDÊNCIAS -->
 
-<!-- DEPENDÊNCIAS -->
+		<title>{% block title %}Site de Vendas - Bem Vindo!{% endblock %}</title>
+	</head>
 
-{% block style %}
-    <link rel=Stylesheet href="/static/styles/basic/base.css" type="text/css">
-{% endblock %}
+	<body>
+		<div class="header">
+			<div id="topo">
+				<h1 style="text-align: center">Site de Vendas</h1>
+				<h3 style="text-align: center">Aqui você encontra TUDO o que precisa!</h3>
+				<h5 style="text-align: right">
+					{% if not user.is_authenticated %}
+						<a href="/login/">login</a> / <a href="/register/">cadastro</a>
+					{% else %}
+						Bem vindo, {{ user.get_full_name }}
+						{% if user.is_staff %}
+							<i>(admin)</i>
+						{% endif %}
 
-<!-- FIM DAS DEPENDÊNCIAS -->
+						<a href="/logout/">sair</a>
+					{% endif %}
+				</h5>
+			</div>
 
-   <title>{% block title %} Site de Vendas - Bem Vindo! {% endblock %}</title>
-</head>
+			<div id="menu">
+				<div class="element" style="background: #657e8e; border-left: solid 1px #1a0680;">
+					<a href="/">Home</a>
+				</div>
 
-<body>
+				<div class="element" style="background: #548db1;">
+					<a href="#">Buscar</a>
+				</div>
 
-   <div class="header">
+				{% if user.is_authenticated and user.is_staff %}
+					<div class="element" style="background: #657e8e;"><a href="/admin/addproduct/">Adicionar Produto</a></div>
+				{% else %}
+					<div class="element" style="background: #657e8e;"><a href="#">Carrinho de Compras</a></div>
+				{% endif %}
 
-      <div id="topo">
-         <h1 align="center"> Site de Vendas </h1>
-         <h3 align="center"> Aqui você encontra TUDO o que precisa! </h3>
-         <h5 align="right"> 
-            {% if not user.is_authenticated %}
-               <a href="/login/"> login </a> /
-               <a href="/register/"> cadastro </a>
-            {% else %}
-               Bem vindo,
-               {{ user.get_full_name }}
-               {% if user.is_staff %}
-                  <i> (admin) </i>
-               {% endif %}
-               <a href="/logout/"> sair </a>
-               
-            {% endif %}
-         </h5>
-      </div>
+				<div class="element" style="background: #548db1; border-right: solid 1px #1a0680;">
+					<a href="#">Contato</a>
+				</div>
+			</div>
+		</div>
 
-      <div id="menu">
-         <div id="element" style="background: #657e8e; border-left: solid 1px #1a0680;"> 
-            <a href="/"> Home </a>
-         </div>
-
-         <div id="element" style="background: #548db1;"> <a href="#"> Buscar              </a> </div>
-
-         {% if user.is_authenticated and user.is_staff %}
-            <div id="element" style="background: #657e8e;"> <a href="/admin/addproduct/"> Adicionar Produto </a> </div>
-         {% else %}
-            <div id="element" style="background: #657e8e;"> <a href="#"> Carrinho de Compras </a> </div>
-         {% endif %}
-
-         <div id="element" style="background: #548db1; border-right: solid 1px #1a0680;">
-            <a href="#"> Contato </a>
-         </div>         
-      </div>
-   </div>
-
-   <div class="corpo">
-      <br>
-      {% block content %}
-         <h1 align="center"> Bem Vindo! </h1> 
-      {% endblock %}
-   </div>
+		<div class="corpo">
+			<br />
+			{% block content %}
+				<h1 style="text-align: center">Bem Vindo!</h1>
+			{% endblock %}
+		</div>
 
 
-   <div class="footer">
-      <h5 align="center">
-         Site de Vendas Inc. - Todos os direitos reservados © <br>
-         Bruno Romero de Azevedo - Hugo Stefan Kaus Puhlmann - Yuri Kunde Schlesner    
-      </h5>  
-   </div>
-
-</body>
-
-
+		<div class="footer">
+			<h5 style="text-align: center">
+				Site de Vendas Inc. - Todos os direitos reservados © <br />
+				Bruno Romero de Azevedo - Hugo Stefan Kaus Puhlmann - Yuri Kunde Schlesner
+			</h5>
+		</div>
+	</body>
 </html>
 
