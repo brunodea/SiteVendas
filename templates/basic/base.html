@@ -7,8 +7,8 @@
 
 <!-- DEPENDÊNCIAS -->
 
-{% block style %}
     <link rel=Stylesheet href="/static/styles/basic/base.css" type="text/css">
+{% block style %}
 {% endblock %}
 
 <!-- FIM DAS DEPENDÊNCIAS -->
@@ -44,7 +44,7 @@
             <a href="/"> Home </a>
          </div>
 
-         <div id="element" style="background: #548db1;"> <a href="#"> Buscar              </a> </div>
+         <div id="element" style="background: #548db1;"> <a href="/listproducts/"> Buscar              </a> </div>
 
          {% if user.is_authenticated and user.is_staff %}
             <div id="element" style="background: #657e8e;"> <a href="/admin/addproduct/"> Adicionar Produto </a> </div>

@@ -15,6 +15,7 @@ urlpatterns = patterns('',
    (r'^logout/', logout),
    (r'^register/', register),
    (r'^admin/addproduct/', 'products.views.addProduct'),
+   (r'^listproducts/', 'products.views.listProducts'),
    (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),  
    (r'^admin/', include(admin.site.urls))
 )
