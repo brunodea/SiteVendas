@@ -1,0 +1,30 @@
+{% extends "basic/base.html" %}
+
+{% block style %}
+    <link rel=Stylesheet href="/static/styles/products/list_products.css" type="text/css">
+{% endblock %}
+
+{% block content %}
+    <table align="center" cellpadding="10" border="0">
+        <tr align="center" style="color: #00133f; background: #6f81ac;">
+            <th> Nome </th>
+            <th> Preço </th>
+            <th> Em estoque </th>
+            <th> Tipo </th>
+            <th> Categoria </th>
+            <th> Marca </th>
+        </tr>        
+        
+        {% for obj in objects %}
+            <tr align="center" style="color: #01309b; background: #dadee5;">
+                <td> {{ obj.name }} </td>
+                <td> {{ obj.price }} </td>
+                <td> {{ obj.instock }} </td>
+                <td> {{ obj.ptype.name }} </td>
+                <td> {{ obj.ptype.category.name }} </td>
+                <td> {{ obj.brand.name }} </td>
+            </tr>
+        {% endfor %} 
+
+    </table>
+{% endblock %}

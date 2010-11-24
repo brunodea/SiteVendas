@@ -72,6 +72,14 @@ def addProduct(request, template_name='products/add_product.html'):
     context = {'user': user, 'addform': addform, 'object': new_product, 'new_ptype': new_ptype }
     return render_to_response(template_name, context, context_instance = RequestContext(request))
 
+def listProducts(request, template_name='products/list_products.html'):
+
+    objects = Product.objects.all()
+
+    context = {'objects': objects }
+    return render_to_response(template_name, context, context_instance = RequestContext(request))
+
+
 
 
 
