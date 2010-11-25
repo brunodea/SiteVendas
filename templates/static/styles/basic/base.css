@@ -1,36 +1,32 @@
-body
-{
-   width: 1000px;
-   margin: auto;
-   margin-top: 10px; 
-   background: #fff;
-   font-family: Helvetica, Verdana, sans-serif;
+body {
+	width: 1000px;
+	margin: auto;
+	margin-top: 10px;
+	background: #fff;
+	font-family: Helvetica, Verdana, sans-serif;
 }
 
 /* HEADER */
 
-.header
-{
-   width: 100%;
-   background: #1a0680;
-   color: #b8b3d5;
-   height: 150px;
+.header {
+	width: 100%;
+	background: #1a0680;
+	color: #b8b3d5;
+	height: 150px;
 }
 
-.header #menu
-{
-   width: 100%;
-   padding-left: 90px;
+.header #menu {
+	width: 100%;
+	padding-left: 90px;
 }
 
-.header #menu #element
-{
-   text-align: center;
-   float: left;
-   width: 200px;
-   padding: 3px;
-   color: #fff;
-   border-bottom: solid 1px #1a0680;
+.header #menu .element {
+	text-align: center;
+	float: left;
+	width: 200px;
+	padding: 3px;
+	color: #fff;
+	border-bottom: solid 1px #1a0680;
 }
 
 .header a:link { color: #e0f3ff; text-decoration:none; }
@@ -38,32 +34,21 @@ body
 .header a:hover { color: #3b3b3b; text-decoration:none; }
 .header a:active { color: #e0f3ff; text-decoration:none; }
 
-.header #topo
-{
-   width: 100%;
-   text-align: center;
-   color: #b8b3d5;
+.header #topo {
+	width: 100%;
+	text-align: center;
+	color: #b8b3d5;
 }
 
-.corpo
-{
-   width: 100%;
-   color: blue;
-   text-align: center;   
+.corpo {
+	width: 100%;
+	color: blue;
+	text-align: center;
 }
 
-.footer
-{
-   width: 100%;
-   text-align: center;
-   float: bottom;
-   color: #d9d9d9;
-   background-color: #000;
+.footer {
+	width: 100%;
+	text-align: center;
+	color: #d9d9d9;
+	background-color: #000;
 }
-
-
-
-
-
-
-
