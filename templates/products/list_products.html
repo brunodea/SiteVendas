@@ -6,6 +6,19 @@
 {% endblock %}
 
 {% block content %}
+
+    <form action="/search/" method="POST">
+        {% csrf_token %}
+
+        <table align="center">
+            <tr>
+                <th> Nome do Produto: </td>
+                <th> <input type="text" name="searchName" value="" /> </td>
+                <th> <input type="submit" value="Buscar" /> </td>
+            </tr>   
+        </table>
+    </form>
+
     <table align="center" cellpadding="10" border="0">
         <tr align="center" style="color: #00133f; background: #6f81ac;">
             <th> Nome </th>
