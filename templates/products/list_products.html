@@ -12,10 +12,17 @@
 
         <table align="center">
             <tr>
-                <th> Nome do Produto: </td>
-                <th> <input type="text" name="searchName" value="" /> </td>
-                <th> <input type="submit" value="Buscar" /> </td>
+                <th> Busca: </th>
+                <th colspan="2"> <input type="text" name="searchField" value="" /> </th>
+                <th colspan="2"> <input type="submit" value="Buscar" /> </th>
             </tr>   
+            <tr>
+                <th> Busca por: </th> 
+                <th> Nome <input type="radio" name="searchBy" value="name" checked /> </th>
+                <th> Tipo <input type="radio" name="searchBy" value="type" /> </th>
+                <th> Categoria <input type="radio" name="searchBy" value="category" /> </th>
+                <th> Marca <input type="radio" name="searchBy" value="brand" /> </th>
+            </tr>
         </table>
     </form>
 

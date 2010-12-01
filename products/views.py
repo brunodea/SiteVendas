@@ -82,11 +82,19 @@ def listProducts(request, template_name='products/list_products.html', objects =
 
 def searchProduct(request):
     objects = []
+    searchField = 'searchField'
 
-    print request.POST
+    if  searchField in request.POST:
+        searchBy = request.POST['searchBy']
 
-    if 'searchName' in request.POST:
-        objects = Product.objects.filter(name__startswith=request.POST['searchName'])
+        if searchBy == 'name':
+            objects = Product.objects.filter(name__startswith=request.POST[searchField])
+        elif searchBy == 'type':
+            objects = Product.objects.filter(ptype__name__startswith=request.POST[searchField])
+        elif searchBy == 'category':
+            objects = Product.objects.filter(ptype__category__name__startswith=request.POST[searchField])
+        elif searchBy == 'brand':
+            objects = Product.objects.filter(brand__name__startswith=request.POST[searchField])
 
     return listProducts(request=request, objects=objects)
 
