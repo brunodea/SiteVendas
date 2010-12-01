@@ -1,0 +1,13 @@
+
+
+table tr
+{
+    cursor: pointer;
+}
+
+table tr td:hover
+{
+    background-color: #a6acc3;
+}
+
+
