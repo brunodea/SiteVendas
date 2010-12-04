@@ -26,26 +26,34 @@
         </table>
     </form>
 
-    <table align="center" cellpadding="10" border="0">
-        <tr align="center" style="color: #00133f; background: #6f81ac;">
-            <th> Nome </th>
-            <th> Preço </th>
-            <th> Em estoque </th>
-            <th> Tipo </th>
-            <th> Categoria </th>
-            <th> Marca </th>
-        </tr>        
-        
-        {% for obj in objects %}
-            <tr align="center" style="color: #01309b; background: #dadee5;">
-                <td> {{ obj.name }} </td>
-                <td> {{ obj.price }} </td>
-                <td> {{ obj.instock }} </td>
-                <td> {{ obj.ptype.name }} </td>
-                <td> {{ obj.ptype.category.name }} </td>
-                <td> {{ obj.brand.name }} </td>
-            </tr>
-        {% endfor %} 
+    <form action="." method="POST">
+    {% csrf_token %}
 
-    </table>
+        <table align="center" cellpadding="10" border="0">
+            <tr align="center" style="color: #00133f; background: #6f81ac;">
+                <th> Nome </th>
+                <th> Preço </th>
+                <th> Em estoque </th>
+                <th> Tipo </th>
+                <th> Categoria </th>
+                <th> Marca </th>
+                <th> Adicionar ao Carrinho </th>
+            </tr>        
+            
+            {% for obj in objects %}
+                <tr align="center" style="color: #01309b; background: #dadee5;">
+                    <td> {{ obj.name }} </td>
+                    <td> {{ obj.price }} </td>
+                    <td> {{ obj.instock }} </td>
+                    <td> {{ obj.ptype.name }} </td>
+                    <td> {{ obj.ptype.category.name }} </td>
+                    <td> {{ obj.brand.name }} </td>
+                    <td> <input type="checkbox" name="checkbox_{{obj.id}}" /> </td>
+                </tr>
+            {% endfor %} 
+            <tr>
+                <td colspan="7"> <input type="submit" name="Pronto" value="Pronto" </td>
+            </tr>
+        </table>
+    </form>
 {% endblock %}
