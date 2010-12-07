@@ -11,27 +11,37 @@
     
     <hr />
 
-    <table align="center" cellpadding="10" border="0">
-        <tr align="center" style="color: #00133f; background: #6f81ac;">
-            <th> Nome </th>
-            <th> Preço </th>
-            <th> Em estoque </th>
-            <th> Tipo </th>
-            <th> Categoria </th>
-            <th> Marca </th>
-            <th> Quantidade </th>
-        </tr>        
-        
-        {% for obj in objects %}
-            <tr align="center" style="color: #01309b; background: #dadee5;">
-                <td> {{ obj.name }} </td>
-                <td> {{ obj.price }} </td>
-                <td> {{ obj.instock }} </td>
-                <td> {{ obj.ptype.name }} </td>
-                <td> {{ obj.ptype.category.name }} </td>
-                <td> {{ obj.brand.name }} </td>
-                <td> Aqui vai a Qtd. </td>
+    <form action="." method="POST">
+     {% csrf_token %}
+        <table align="center" cellpadding="10" border="0">
+            <tr align="center" style="color: #00133f; background: #6f81ac;">
+                <th> Nome </th>
+                <th> Preço </th>
+                <th> Em estoque </th>
+                <th> Tipo </th>
+                <th> Categoria </th>
+                <th> Marca </th>
+                <th> Quantidade </th>
+                <th> Remover </th>
+            </tr>        
+            
+            {% if objects %}
+                {% for obj, qnt in objects %}
+                    <tr align="center" style="color: #01309b; background: #dadee5;">
+                        <td> {{ obj.name }} </td>
+                        <td> {{ obj.price }} </td>
+                        <td> {{ obj.instock }} </td>
+                        <td> {{ obj.ptype.name }} </td>
+                        <td> {{ obj.ptype.category.name }} </td>
+                        <td> {{ obj.brand.name }} </td>
+                        <td> <input type="textfield" name="checkbox_qtd_{{obj.id}}" value="{{qnt}}"/> </td>
+                        <td> <input type="checkbox" name="checkbox_rem_{{obj.id}}" /> </td>
+                    </tr>
+                {% endfor %} 
+            {% endif %}
+            <tr>
+                <td colspan="8"> <input type="submit" name="alterar" value="Alterar" /> </td>
             </tr>
-        {% endfor %} 
-    </table>
+        </table>
+    </form>
 {% endblock %}

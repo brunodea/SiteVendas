@@ -43,7 +43,7 @@
 				{% if user.is_authenticated and user.is_staff %}
 					<div class="element" style="background: #657e8e;"><a href="/admin/addproduct/">Adicionar Produto</a></div>
 				{% else %}
-					<div class="element" style="background: #657e8e;"><a href="#">Carrinho de Compras</a></div>
+					<div class="element" style="background: #657e8e;"><a href="/user/cart/">Carrinho de Compras</a></div>
 				{% endif %}
 
 				<div class="element" style="background: #548db1; border-right: solid 1px #1a0680;">
