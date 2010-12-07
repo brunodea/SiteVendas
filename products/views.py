@@ -83,16 +83,16 @@ def searchProduct(request):
     objects = []
     searchField = 'searchField'
 
-    if  searchField in request.POST:
-        searchBy = request.POST['searchBy']
+    if searchField in request.GET:
+        searchBy = request.GET['searchBy']
 
         if searchBy == 'name':
-            objects = Product.objects.filter(name__startswith=request.POST[searchField])
+            objects = Product.objects.filter(name__startswith=request.GET[searchField])
         elif searchBy == 'type':
-            objects = Product.objects.filter(ptype__name__startswith=request.POST[searchField])
+            objects = Product.objects.filter(ptype__name__startswith=request.GET[searchField])
         elif searchBy == 'category':
-            objects = Product.objects.filter(ptype__category__name__startswith=request.POST[searchField])
+            objects = Product.objects.filter(ptype__category__name__startswith=request.GET[searchField])
         elif searchBy == 'brand':
-            objects = Product.objects.filter(brand__name__startswith=request.POST[searchField])
+            objects = Product.objects.filter(brand__name__startswith=request.GET[searchField])
 
     return listProducts(request=request, objects=objects)

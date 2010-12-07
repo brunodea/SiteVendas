@@ -7,9 +7,7 @@
 
 {% block content %}
 
-    <form action="/search/" method="POST">
-        {% csrf_token %}
-
+    <form action="/search/" method="GET">
         <table align="center">
             <tr>
                 <th> Busca: </th>
