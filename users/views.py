@@ -2,6 +2,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from users.models import Costumer, Cart
 from users.forms import SignupForm, UserCreationFormExtended
+from products.models import Product
 
 def index(request):
    
@@ -46,16 +47,36 @@ def register(request, template_name='registration/register.html'):
        regis_form = UserCreationFormExtended()
 
 
-    return render_to_response(template_name, 
-                             {
-                             'object': new_costumer,
-                             'signup_form': signup_form,
-                             'regis_form': regis_form,
-                             'cpf_error_form': cpf_error_message,
-                             }, context_instance = RequestContext(request))
+    context = {'object': new_costumer, 'signup_form': signup_form,
+               'regis_form': regis_form, 'cpf_error_form': cpf_error_message}
+
+    return render_to_response(template_name, context, context_instance = RequestContext(request))
+
+def addProductsToCart(request):
+
+    products = []
+
+    if not request.user.is_authenticated():
+        for element in request.POST:
+            product = element.split('_')
+            if product[0] == 'checkbox':
+                request.session['productid'+ '_' + product[1]] = product[1]
 
 
+    for element in request.session.keys():
+        product = element.split('_')
+        if product[0] == 'productid':
+            products.append(Product.objects.get(id = product[1]))
 
+    return products
+    
+
+def userCart(request, template_name='user/user_cart.html'):
+
+    products = addProductsToCart(request)
+    context = {'objects': products}
+
+    return render_to_response(template_name, context, context_instance = RequestContext(request))
 
 
 
