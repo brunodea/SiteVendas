@@ -29,8 +29,8 @@
     <form action="/user/cart/" method="POST">
     {% csrf_token %}
 
-        <table align="center" cellpadding="10" border="0">
-            <tr align="center" style="color: #00133f; background: #6f81ac;">
+        <table id="product_list" align="center" cellpadding="10" border="0">
+            <tr align="center" id="header">
                 <th> Nome </th>
                 <th> Preço </th>
                 <th> Em estoque </th>
@@ -41,7 +41,7 @@
             </tr>
 
             {% for obj in objects %}
-                <tr align="center" style="color: #01309b; background: #dadee5;">
+                <tr align="center" class="{% cycle "" "odd" %}">
                     <td> {{ obj.name }} </td>
                     <td> {{ obj.price }} </td>
                     <td> {{ obj.instock }} </td>
