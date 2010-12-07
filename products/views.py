@@ -54,7 +54,9 @@ def addProduct(request, template_name='products/add_product.html'):
            if choice_tuple[1] == 'Novo':
                new_ptype = True
            elif addform.is_valid():
-               new_product = addProductPOSTHandler(request.POST)
+               new_request = request.POST.copy()
+               new_request['ptype'] = type_choices[int(request.POST['ptype']) - 1][1]
+               new_product = addProductPOSTHandler(new_request)
        else:
            new_request = request.POST.copy()
            new_request['ptype'] = request.POST['ptype2']
