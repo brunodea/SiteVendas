@@ -37,7 +37,9 @@
                 <th> Tipo </th>
                 <th> Categoria </th>
                 <th> Marca </th>
-                <th> Adicionar ao Carrinho </th>
+                {% if not user.is_staff %}
+                    <th> Adicionar ao Carrinho </th>
+                {% endif %}
             </tr>        
             
             {% for obj in objects %}
@@ -48,12 +50,16 @@
                     <td> {{ obj.ptype.name }} </td>
                     <td> {{ obj.ptype.category.name }} </td>
                     <td> {{ obj.brand.name }} </td>
-                    <td> <input type="checkbox" name="checkbox_{{obj.id}}" /> </td>
+                    {% if not user.is_staff %}
+                        <td> <input type="checkbox" name="checkbox_{{obj.id}}" /> </td>
+                    {% endif %}
                 </tr>
             {% endfor %} 
-            <tr>
-                <td colspan="7"> <input type="submit" name="Pronto" value="Pronto" </td>
-            </tr>
+            {% if not user.is_staff %}
+                <tr>
+                    <td colspan="7"> <input type="submit" name="Pronto" value="Pronto" </td>
+                </tr>
+            {% endif %} 
         </table>
     </form>
 {% endblock %}
