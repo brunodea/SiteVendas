@@ -4,7 +4,6 @@ from products.forms import AddProductForm, type_choices, typeChoices
 from products.models import Brand, Category, ProductType, Product
 
 def addProductPOSTHandler(post_request):
-    
     product_exists = True
 
     try:
@@ -13,14 +12,14 @@ def addProductPOSTHandler(post_request):
         brand = Brand(name=post_request['brand'])
         brand.save()
         product_exists = False
-    
+
     try:
         category = Category.objects.get(name=post_request['category'])
     except Category.DoesNotExist:
         category = Category(name=post_request['category'])
         category.save()
         product_exists = False
-    
+
     try:
         ptype = ProductType.objects.get(name=post_request['ptype'])
     except ProductType.DoesNotExist:
@@ -39,10 +38,9 @@ def addProductPOSTHandler(post_request):
           product.save()
 
     return product
-           
+
 
 def addProduct(request, template_name='products/add_product.html'):
-   
     user = request.user
 
     new_product = []
@@ -51,7 +49,7 @@ def addProduct(request, template_name='products/add_product.html'):
     if request.method == 'POST':
        addform = AddProductForm(request.POST)
 
-       if 'ptype' in request.POST:     
+       if 'ptype' in request.POST:
            choice_tuple = type_choices[int(request.POST['ptype']) - 1]
            if choice_tuple[1] == 'Novo':
                new_ptype = True
@@ -65,20 +63,21 @@ def addProduct(request, template_name='products/add_product.html'):
 
        if new_product:
            addform_choices = addform.fields['ptype'].choices
-           addform_choices.append((len(addform_choices), new_product.ptype.name))   
+           addform_choices.append((len(addform_choices), new_product.ptype.name))
     else:
        addform = AddProductForm()
 
     context = {'user': user, 'addform': addform, 'object': new_product, 'new_ptype': new_ptype }
     return render_to_response(template_name, context, context_instance = RequestContext(request))
 
-def listProducts(request, template_name='products/list_products.html', objects = []):
 
+def listProducts(request, template_name='products/list_products.html', objects = []):
     if not objects:
         objects = Product.objects.all()
 
     context = {'objects': objects }
     return render_to_response(template_name, context, context_instance = RequestContext(request))
+
 
 def searchProduct(request):
     objects = []
@@ -97,6 +96,3 @@ def searchProduct(request):
             objects = Product.objects.filter(brand__name__startswith=request.POST[searchField])
 
     return listProducts(request=request, objects=objects)
-
-
-
