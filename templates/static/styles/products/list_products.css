@@ -1,11 +1,13 @@
-table tr
-{
-    cursor: pointer;
+table#product_list tr {
+	color: #01309b;
+	background-color: #dadee5;
 }
 
-table tr td:hover
-{
-    background-color: #a6acc3;
+table#product_list tr#header {
+	color: #00133f;
+	background-color: #6f81ac;
 }
 
-
+table#product_list tr.odd {
+	background-color: #a6acc3;
+}

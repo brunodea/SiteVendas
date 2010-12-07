@@ -7,17 +7,15 @@
 
 {% block content %}
 
-    <form action="/search/" method="POST">
-        {% csrf_token %}
-
+    <form action="/search/" method="GET">
         <table align="center">
             <tr>
                 <th> Busca: </th>
                 <th colspan="2"> <input type="text" name="searchField" value="" /> </th>
                 <th colspan="2"> <input type="submit" value="Buscar" /> </th>
-            </tr>   
+            </tr>
             <tr>
-                <th> Busca por: </th> 
+                <th> Busca por: </th>
                 <th> Nome <input type="radio" name="searchBy" value="name" checked /> </th>
                 <th> Tipo <input type="radio" name="searchBy" value="type" /> </th>
                 <th> Categoria <input type="radio" name="searchBy" value="category" /> </th>
@@ -29,21 +27,22 @@
     <form action="/user/cart/" method="POST">
     {% csrf_token %}
 
-        <table align="center" cellpadding="10" border="0">
-            <tr align="center" style="color: #00133f; background: #6f81ac;">
+        <table id="product_list" align="center" cellpadding="10" border="0">
+            <tr align="center" id="header">
                 <th> Nome </th>
                 <th> Preço </th>
                 <th> Em estoque </th>
                 <th> Tipo </th>
                 <th> Categoria </th>
                 <th> Marca </th>
+
                 {% if not user.is_staff %}
                     <th> Adicionar ao Carrinho </th>
                 {% endif %}
             </tr>        
-            
+
             {% for obj in objects %}
-                <tr align="center" style="color: #01309b; background: #dadee5;">
+                <tr align="center" class="{% cycle "" "odd" %}">
                     <td> {{ obj.name }} </td>
                     <td> {{ obj.price }} </td>
                     <td> {{ obj.instock }} </td>
