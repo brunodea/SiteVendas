@@ -52,30 +52,55 @@ def register(request, template_name='registration/register.html'):
 
     return render_to_response(template_name, context, context_instance = RequestContext(request))
 
-def addProductsToCart(request):
+def getProductsToCart(request):
 
     products = []
+
+    for element in request.session.keys():
+            product = element.split('_')
+            if product[0] == 'productid':
+                prod = (Product.objects.get(id = product[1]), request.session[element]) #produto e a quantidade.
+                products.append(prod)
+
+    return products
+
+def addProductsToCart(request):
 
     if not request.user.is_authenticated():
         for element in request.POST:
             product = element.split('_')
-            if product[0] == 'checkbox':
-                request.session['productid'+ '_' + product[1]] = product[1]
 
+            if len(product) == 2:
+                productid = 'productid'+ '_' + product[1]
+                if product[0] == 'checkbox' and not productid in request.session.keys():
+                    request.session[productid] = 1
 
-    for element in request.session.keys():
-        product = element.split('_')
-        if product[0] == 'productid':
-            products.append(Product.objects.get(id = product[1]))
-
-    return products
-    
+    return getProductsToCart(request)
 
 def userCart(request, template_name='user/user_cart.html'):
 
-    products = addProductsToCart(request)
-    context = {'objects': products}
+    if request.method == 'POST':
+        
+        for element in request.POST:
+            values = element.split('_')
+            if len(values) == 3:
+                if values[0] == 'checkbox':
+                    if values[1] == 'qtd':
+                        try:
+                            qnt = int(request.POST[element])
+                            if qnt < 0:
+                                qnt *= -1
+                            request.session['productid' + '_' + values[2]] = qnt
+                        except: 
+                            pass
+                    elif values[1] == 'rem':
+                        del request.session['productid' + '_' + values[2]]
 
+        products = addProductsToCart(request)
+    else:
+        products = getProductsToCart(request)
+
+    context = {'objects': products }
     return render_to_response(template_name, context, context_instance = RequestContext(request))
 
 
