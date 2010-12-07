@@ -1,4 +1,4 @@
-table#product_list tr {
+table#product_list tr td {
 	color: #01309b;
 	background-color: #dadee5;
 }
