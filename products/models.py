@@ -27,7 +27,7 @@ class Product(models.Model):
     brand = models.ForeignKey(Brand)
 
     name = models.CharField(max_length=100)
-    price = models.FloatField()
+    price = models.DecimalField(max_digits=5, decimal_places=2)
     instock = models.IntegerField()
 
     def __unicode__(self):

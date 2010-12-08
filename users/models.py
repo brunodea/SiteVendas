@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from products.models import Product
 
 class Cart(models.Model):
+    products = models.ManyToManyField(Product, through='CartProduct')
+
     def __unicode__(self):
         return 'Cart'
 
@@ -21,6 +23,9 @@ class CartProduct(models.Model):
 
     #numero de itens de tal produto.
     num_prods = models.IntegerField()
+
+    class Meta:
+        unique_together = (("cart", "product"),)
 
     def __unicode__(self):
         return 'Cart Product'
