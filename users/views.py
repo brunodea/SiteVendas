@@ -5,13 +5,12 @@ from users.forms import SignupForm, UserCreationFormExtended
 from products.models import Product
 
 def index(request):
-   
     user = request.user
     return render_to_response("basic/base.html", {"user": user }, context_instance = RequestContext(request))
 
 
 def registerPOSTHandler(post_request, new_user):
-    """ Salva um novo medico relacionado a um novo usuario. """    
+    """ Salva um novo medico relacionado a um novo usuario. """
 
     cart = Cart()
     cart.save()
@@ -20,6 +19,7 @@ def registerPOSTHandler(post_request, new_user):
     costumer.save()
 
     return costumer
+
 
 def register(request, template_name='registration/register.html'):
     """ Lida com o cadastro de um usuario. """
@@ -41,7 +41,7 @@ def register(request, template_name='registration/register.html'):
        if not cpf_error_message and signup_form.is_valid() and regis_form.is_valid():
           new_user = regis_form.save(request.POST)
           new_costumer = registerPOSTHandler(request.POST, new_user)
-            
+
     else:
        signup_form = SignupForm()
        regis_form = UserCreationFormExtended()
@@ -52,8 +52,8 @@ def register(request, template_name='registration/register.html'):
 
     return render_to_response(template_name, context, context_instance = RequestContext(request))
 
-def getProductsToCart(request):
 
+def getProductsToCart(request):
     products = []
 
     for element in request.session.keys():
@@ -64,8 +64,8 @@ def getProductsToCart(request):
 
     return products
 
-def addProductsToCart(request):
 
+def addProductsToCart(request):
     if not request.user.is_authenticated():
         for element in request.POST:
             product = element.split('_')
@@ -77,10 +77,10 @@ def addProductsToCart(request):
 
     return getProductsToCart(request)
 
-def userCart(request, template_name='user/user_cart.html'):
 
+def userCart(request, template_name='user/user_cart.html'):
     if request.method == 'POST':
-        
+
         for element in request.POST:
             values = element.split('_')
             if len(values) == 3:
@@ -91,7 +91,7 @@ def userCart(request, template_name='user/user_cart.html'):
                             if qnt < 0:
                                 qnt *= -1
                             request.session['productid' + '_' + values[2]] = qnt
-                        except: 
+                        except:
                             pass
                     elif values[1] == 'rem':
                         del request.session['productid' + '_' + values[2]]
@@ -102,8 +102,3 @@ def userCart(request, template_name='user/user_cart.html'):
 
     context = {'objects': products }
     return render_to_response(template_name, context, context_instance = RequestContext(request))
-
-
-
-
-
