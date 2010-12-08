@@ -14,18 +14,18 @@
     <form action="." method="POST">
      {% csrf_token %}
         <table align="center" cellpadding="10" border="0">
-            <tr align="center" style="color: #00133f; background: #6f81ac;">
-                <th> Nome </th>
-                <th> Preço </th>
-                <th> Em estoque </th>
-                <th> Tipo </th>
-                <th> Categoria </th>
-                <th> Marca </th>
-                <th> Quantidade </th>
-                <th> Remover </th>
-            </tr>        
+            {% if objects and not user.is_staff %}
+                <tr align="center" style="color: #00133f; background: #6f81ac;">
+                    <th> Nome </th>
+                    <th> Preço </th>
+                    <th> Em estoque </th>
+                    <th> Tipo </th>
+                    <th> Categoria </th>
+                    <th> Marca </th>
+                    <th> Quantidade </th>
+                    <th> Remover </th>
+                </tr>        
             
-            {% if objects %}
                 {% for obj, qnt in objects %}
                     <tr align="center" style="color: #01309b; background: #dadee5;">
                         <td> {{ obj.name }} </td>
@@ -38,10 +38,17 @@
                         <td> <input type="checkbox" name="checkbox_rem_{{obj.id}}" /> </td>
                     </tr>
                 {% endfor %} 
+                <tr>
+                    <td colspan="8"> <input type="submit" name="alterar" value="Alterar" /> </td>
+                </tr>
+            {% else %}
+
+                {% if user.is_staff %}
+                    <strong> Você não deveria estar aqui... </strong>
+                {% else %}
+                    <strong> Carrinho está vazio! </strong>
+                {% endif %}
             {% endif %}
-            <tr>
-                <td colspan="8"> <input type="submit" name="alterar" value="Alterar" /> </td>
-            </tr>
         </table>
     </form>
 {% endblock %}

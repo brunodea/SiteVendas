@@ -69,7 +69,6 @@ def addProductsToCart(request):
     if not request.user.is_authenticated():
         for element in request.POST:
             product = element.split('_')
-
             if len(product) == 2:
                 productid = 'productid'+ '_' + product[1]
                 if product[0] == 'checkbox' and not productid in request.session.keys():
@@ -85,17 +84,17 @@ def userCart(request, template_name='user/user_cart.html'):
             values = element.split('_')
             if len(values) == 3:
                 if values[0] == 'checkbox':
+                    productid = 'productid' + '_' + values[2]
                     if values[1] == 'qtd':
                         try:
                             qnt = int(request.POST[element])
                             if qnt < 0:
                                 qnt *= -1
-                            request.session['productid' + '_' + values[2]] = qnt
+                            request.session[productid] = qnt
                         except:
                             pass
                     elif values[1] == 'rem':
-                        del request.session['productid' + '_' + values[2]]
-
+                        del request.session[productid]
         products = addProductsToCart(request)
     else:
         products = getProductsToCart(request)
