@@ -1,7 +1,7 @@
 {% extends "basic/base.html" %}
 
 {% block content %}
-	{% if not object and user.is_authenticated and user.is_staff %}
+	{% if addform and user.is_authenticated and user.is_staff %}
 		<h2 style="text-align: center">Adicionar Produto</h2>
 		<hr />
 
@@ -10,7 +10,6 @@
 		{% endif %}
 
 		<form action="." method="POST">
-			<!-- Token necessário para evitar a duplicação de informação enviada via formulário. -->
 			{% csrf_token %}
 			<table align="center">
 				<tr>
@@ -42,20 +41,7 @@
 				</tr>
 
 				<tr>
-					<td align="left"><label for="id_category">Categoria:</label></td><td>{{ addform.category }}</td>
-					{% if addform.category.errors %}
-						<td style="color: red;">{{ addform.category.errors }}</td>
-					{% endif %}
-				</tr>
-
-				<tr>
-					<td align="left"><label for="id_ptype">Tipo:</label></td>
-					{% if not new_ptype %}
-						<td>{{ addform.ptype }}</td>
-					{% else %}
-						<td>{{ addform.ptype2 }}</td>
-					{% endif %}
-
+					<td align="left"><label for="id_category">Categoria e Tipo:</label></td><td>{{ addform.ptype }}</td>
 					{% if addform.ptype.errors %}
 						<td style="color: red;">{{ addform.ptype.errors }}</td>
 					{% endif %}

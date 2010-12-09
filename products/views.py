@@ -1,77 +1,25 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from products.forms import AddProductForm, type_choices, typeChoices
+from products.forms import AddProductForm
 from products.models import Brand, Category, ProductType, Product
 
-def addProductPOSTHandler(post_request):
-    product_exists = True
+def addProduct(request, template_name='products/add_product.html'):
+    if request.method == 'POST':
+        addform = AddProductForm(request.POST)
 
-    try:
-        brand = Brand.objects.get(name=post_request['brand'])
-    except Brand.DoesNotExist:
-        brand = Brand(name=post_request['brand'])
-        brand.save()
-        product_exists = False
+        if addform.is_valid():
+            data = addform.cleaned_data
 
-    try:
-        category = Category.objects.get(name=post_request['category'])
-    except Category.DoesNotExist:
-        category = Category(name=post_request['category'])
-        category.save()
-        product_exists = False
-
-    try:
-        ptype = ProductType.objects.get(name=post_request['ptype'])
-    except ProductType.DoesNotExist:
-        ptype = ProductType(name=post_request['ptype'], category=category)
-        ptype.save()
-        product_exists = False
-
-
-    try:
-        product = Product.objects.get(name=post_request['name'])
-        product = []
-    except Product.DoesNotExist:
-        if not product_exists:
-            product = Product(name=post_request['name'], price=post_request['price'],
-                    instock=post_request['units'], brand=brand, ptype=ptype)
+            product = Product(name=data['name'], price=data['price'], instock=data['units'],
+                    ptype=data['ptype'], brand=data['brand'])
             product.save()
 
-    return product
-
-
-def addProduct(request, template_name='products/add_product.html'):
-    user = request.user
-
-    new_product = []
-    new_ptype = False
-
-    if request.method == 'POST':
-       addform = AddProductForm(request.POST)
-
-       if 'ptype' in request.POST:
-           choice_tuple = type_choices[int(request.POST['ptype']) - 1]
-           if choice_tuple[1] == 'Novo':
-               new_ptype = True
-           elif addform.is_valid():
-               new_request = request.POST.copy()
-               new_request['ptype'] = type_choices[int(request.POST['ptype']) - 1][1]
-               new_product = addProductPOSTHandler(new_request)
-
-               addform_choices = addform.fields['ptype'].choices
-
-       else:
-           new_request = request.POST.copy()
-           new_request['ptype'] = request.POST['ptype2']
-           if new_request['ptype']:
-               new_product = addProductPOSTHandler(new_request)
-            
-               addform_choices = addform.fields['ptype'].choices
-               addform_choices.append((len(addform_choices), new_product.ptype.name))
+            addform = None
     else:
         addform = AddProductForm()
 
-    context = {'user': user, 'addform': addform, 'object': new_product, 'new_ptype': new_ptype }
+    context = {'user': request.user, 'addform': addform}
+
     return render_to_response(template_name, context, context_instance = RequestContext(request))
 
 
