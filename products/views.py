@@ -32,10 +32,10 @@ def addProductPOSTHandler(post_request):
         product = Product.objects.get(name=post_request['name'])
         product = []
     except Product.DoesNotExist:
-       if not product_exists:
-          product = Product(name=post_request['name'], price=post_request['price'], instock=post_request['units'],
-                            brand=brand, ptype=ptype)
-          product.save()
+        if not product_exists:
+            product = Product(name=post_request['name'], price=post_request['price'],
+                    instock=post_request['units'], brand=brand, ptype=ptype)
+            product.save()
 
     return product
 
@@ -69,7 +69,7 @@ def addProduct(request, template_name='products/add_product.html'):
                addform_choices = addform.fields['ptype'].choices
                addform_choices.append((len(addform_choices), new_product.ptype.name))
     else:
-       addform = AddProductForm()
+        addform = AddProductForm()
 
     context = {'user': user, 'addform': addform, 'object': new_product, 'new_ptype': new_ptype }
     return render_to_response(template_name, context, context_instance = RequestContext(request))
