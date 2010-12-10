@@ -24,41 +24,39 @@
         </table>
     </form>
 
-    <form action="/user/cart/" method="POST">
-    {% csrf_token %}
+    <table id="product_list" align="center" cellpadding="10" border="0">
+        <tr align="center" id="header">
+            <th> Nome </th>
+            <th> Preço </th>
+            <th> Em estoque </th>
+            <th> Tipo </th>
+            <th> Categoria </th>
+            <th> Marca </th>
 
-        <table id="product_list" align="center" cellpadding="10" border="0">
-            <tr align="center" id="header">
-                <th> Nome </th>
-                <th> Preço </th>
-                <th> Em estoque </th>
-                <th> Tipo </th>
-                <th> Categoria </th>
-                <th> Marca </th>
-
-                {% if not user.is_staff %}
-                    <th> Adicionar ao Carrinho </th>
-                {% endif %}
-            </tr>        
-
-            {% for obj in objects %}
-                <tr align="center" class="{% cycle "" "odd" %}">
-                    <td> {{ obj.name }} </td>
-                    <td> {{ obj.price }} </td>
-                    <td> {{ obj.instock }} </td>
-                    <td> {{ obj.ptype.name }} </td>
-                    <td> {{ obj.ptype.category.name }} </td>
-                    <td> {{ obj.brand.name }} </td>
-                    {% if not user.is_staff %}
-                        <td> <input type="checkbox" name="checkbox_{{obj.id}}" /> </td>
-                    {% endif %}
-                </tr>
-            {% endfor %} 
             {% if not user.is_staff %}
-                <tr>
-                    <td colspan="7"> <input type="submit" name="Pronto" value="Pronto" </td>
-                </tr>
-            {% endif %} 
-        </table>
-    </form>
+                <th> Adicionar ao Carrinho </th>
+            {% endif %}
+        </tr>
+
+        {% for obj in objects %}
+            <tr align="center" class="{% cycle "" "odd" %}">
+                <td> {{ obj.name }} </td>
+                <td> {{ obj.price }} </td>
+                <td> {{ obj.instock }} </td>
+                <td> {{ obj.ptype.name }} </td>
+                <td> {{ obj.ptype.category.name }} </td>
+                <td> {{ obj.brand.name }} </td>
+                {% if not user.is_staff %}
+                    <td>
+                        <form action="/user/cart/add" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="product_id" value="{{obj.id}}" />
+                            <input class="quantity_textbox" type="text" name="quantity" value="1" />
+                            <input type="submit" value="Adicionar" />
+                        </form>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}

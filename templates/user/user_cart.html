@@ -6,15 +6,13 @@
 {% endblock %}
 
 {% block content %}
-
     <h2> Carrinho de Compras </h2>
-    
     <hr />
 
-    <form action="{{ request.path }}" method="POST">
+    <form action="update" method="POST">
         {% csrf_token %}
         <table align="center" cellpadding="10" border="0">
-            {% if objects and not user.is_staff %}
+            {% if cartprods %}
                 <tr align="center" style="color: #00133f; background: #6f81ac;">
                     <th> Nome </th>
                     <th> Preço </th>
@@ -23,31 +21,26 @@
                     <th> Categoria </th>
                     <th> Marca </th>
                     <th> Quantidade </th>
-                    <th> Remover </th>
-                </tr>        
-            
-                {% for obj, qnt in objects %}
+                </tr>
+
+                {% for i in cartprods %}
                     <tr align="center" style="color: #01309b; background: #dadee5;">
-                        <td> {{ obj.name }} </td>
-                        <td> {{ obj.price }} </td>
-                        <td> {{ obj.instock }} </td>
-                        <td> {{ obj.ptype.name }} </td>
-                        <td> {{ obj.ptype.category.name }} </td>
-                        <td> {{ obj.brand.name }} </td>
-                        <td> <input type="textfield" name="checkbox_qtd_{{obj.id}}" value="{{qnt}}"/> </td>
-                        <td> <input type="checkbox" name="checkbox_rem_{{obj.id}}" /> </td>
+                        {% with i.product as p %}
+                            <td> {{ p.name }} </td>
+                            <td> {{ p.price }} </td>
+                            <td> {{ p.instock }} </td>
+                            <td> {{ p.ptype.name }} </td>
+                            <td> {{ p.ptype.category.name }} </td>
+                            <td> {{ p.brand.name }} </td>
+                        {% endwith %}
+                        <td><input type="textfield" name="quantity_{{i.pk}}" value="{{i.num_prods}}"/></td>
                     </tr>
-                {% endfor %} 
+                {% endfor %}
                 <tr>
                     <td colspan="8"> <input type="submit" name="alterar" value="Alterar" /> </td>
                 </tr>
             {% else %}
-
-                {% if user.is_staff %}
-                    <strong> Você não deveria estar aqui... </strong>
-                {% else %}
-                    <strong> Carrinho está vazio! </strong>
-                {% endif %}
+                <tr><td><strong> Carrinho está vazio! </strong></td></tr>
             {% endif %}
         </table>
     </form>

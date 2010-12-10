@@ -11,3 +11,7 @@ table#product_list tr#header {
 table#product_list tr.odd {
 	background-color: #a6acc3;
 }
+
+.quantity_textbox {
+	width: 25px;
+}

@@ -96,3 +96,4 @@ INSTALLED_APPS = (
     'users'
 )
 
+AUTH_PROFILE_MODULE = 'users.Costumer'

@@ -1,6 +1,7 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from users.models import Costumer, Cart
+from django.http import HttpResponseRedirect
+from users.models import Costumer, Cart, CartProduct
 from users.forms import SignupForm, UserCreationFormExtended
 from products.models import Product
 
@@ -53,51 +54,69 @@ def register(request, template_name='registration/register.html'):
     return render_to_response(template_name, context, context_instance = RequestContext(request))
 
 
-def getProductsToCart(request):
-    products = []
+def getUserCart(request):
+    if request.user.is_authenticated():
+        profile = request.user.get_profile()
+        if profile.cart is None:
+            if 'cart' in request.session:
+                # cart migration from guest to registered user
+                try:
+                    profile.cart = Cart.objects.get(pk=request.session['cart'])
+                except Cart.DoesNotExist:
+                    # invalid cart. Create a new one
+                    profile.cart = Cart.objects.create()
+                # delete session cart because it has either been migrated or was invalid
+                del request.session['cart']
+            else:
+                profile.cart = Cart.objects.create()
+        return profile.cart
+    else:
+        if 'cart' in request.session:
+            try:
+                new_cart = Cart.objects.get(pk=request.session['cart'])
+            except Cart.DoesNotExist:
+                # invalid cart. Create a new one
+                new_cart = Cart.objects.create()
+                request.session['cart'] = new_cart.pk
+        else:
+            new_cart = Cart.objects.create()
+            request.session['cart'] = new_cart.pk
+        return new_cart
 
-    for element in request.session.keys():
-            product = element.split('_')
-            if product[0] == 'productid':
-                prod = (Product.objects.get(id = product[1]), request.session[element]) #produto e a quantidade.
-                products.append(prod)
 
-    return products
+def validateAndCleanArgs(request, *args):
+    if request.method != 'POST':
+        return None
+    ret = {}
+    for var in args:
+        if var[0] not in request.POST:
+            return None
+        try:
+            ret[var[0]] = var[1](request.POST[var[0]])
+        except ValueError:
+            return None
+    return ret
 
 
-def addProductsToCart(request):
-    if not request.user.is_authenticated():
-        for element in request.POST:
-            product = element.split('_')
-            if len(product) == 2:
-                productid = 'productid'+ '_' + product[1]
-                if product[0] == 'checkbox' and not productid in request.session.keys():
-                    request.session[productid] = 1
-
-    return getProductsToCart(request)
+def addProductToCart(request):
+    if request.user.is_staff:
+        return HttpResponseRedirect('/')
+    else:
+        ret = validateAndCleanArgs(request, ('product_id', int), ('quantity', int))
+        if ret:
+            try:
+                product = Product.objects.get(pk=ret['product_id'])
+            except Product.DoesNotExist:
+                pass
+            else:
+                cart = getUserCart(request)
+                cart.addNumProduct(product, ret['quantity'])
+        return HttpResponseRedirect('/user/cart/')
 
 
 def userCart(request, template_name='user/user_cart.html'):
-    if request.method == 'POST':
+    if request.user.is_staff:
+        return HttpResponseRedirect('/')
 
-        for element in request.POST:
-            values = element.split('_')
-            if len(values) == 3:
-                if values[0] == 'checkbox':
-                    productid = 'productid' + '_' + values[2]
-                    if values[1] == 'qtd':
-                        try:
-                            qnt = int(request.POST[element])
-                            if qnt < 0:
-                                qnt *= -1
-                            request.session[productid] = qnt
-                        except:
-                            pass
-                    elif values[1] == 'rem':
-                        del request.session[productid]
-        products = addProductsToCart(request)
-    else:
-        products = getProductsToCart(request)
-
-    context = {'objects': products }
-    return render_to_response(template_name, context, context_instance = RequestContext(request))
+    context = {'cartprods': CartProduct.objects.filter(cart=getUserCart(request))}
+    return render_to_response(template_name, context, context_instance=RequestContext(request))
