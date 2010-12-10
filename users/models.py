@@ -14,22 +14,26 @@ class Cart(models.Model):
     def setNumProduct(self, product, num):
         try:
             cp = CartProduct.objects.get(cart=self, product=product)
-            cp.num_prods = num
+            if num > 0:
+                cp.num_prods = num
+                cp.save()
+            else:
+                cp.delete()
         except CartProduct.DoesNotExist:
-            cp = CartProduct(cart=self, product=product, num_prods=num)
-        if cp.num_prods < 0:
-            cp.num_prods = 0
-        cp.save()
+            if num > 0:
+                CartProduct.objects.create(cart=self, product=product, num_prods=num)
 
     def addNumProduct(self, product, num):
         try:
             cp = CartProduct.objects.get(cart=self, product=product)
             cp.num_prods += num
+            if cp.num_prods > 0:
+                cp.save()
+            else:
+                cp.delete()
         except CartProduct.DoesNotExist:
-            cp = CartProduct(cart=self, product=product, num_prods=num)
-        if cp.num_prods < 0:
-            cp.num_prods = 0
-        cp.save()
+            if num > 0:
+                CartProduct.objects.create(cart=self, product=product, num_prods=num)
 
     def __unicode__(self):
         return 'Cart'
