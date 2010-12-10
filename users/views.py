@@ -114,6 +114,28 @@ def addProductToCart(request):
         return HttpResponseRedirect('/user/cart/')
 
 
+def updateProductsOnCart(request):
+    if request.user.is_staff:
+        return HttpResponseRedirect('/')
+    else:
+        if request.method == 'POST':
+            cart = getUserCart(request)
+            for i in request.POST:
+                if not i.startswith('quantity_'):
+                    continue
+                try:
+                    idnum = int(i[9:])
+                    qntnum = int(request.POST[i])
+                except ValueError as e:
+                    continue
+                try:
+                    product = Product.objects.get(pk=idnum)
+                except Product.DoesNotExist as e:
+                    continue
+                cart.setNumProduct(product, qntnum)
+        return HttpResponseRedirect('/user/cart/')
+
+
 def userCart(request, template_name='user/user_cart.html'):
     if request.user.is_staff:
         return HttpResponseRedirect('/')

@@ -32,8 +32,8 @@
                             <td> {{ p.ptype.name }} </td>
                             <td> {{ p.ptype.category.name }} </td>
                             <td> {{ p.brand.name }} </td>
+                            <td><input type="textfield" name="quantity_{{p.pk}}" value="{{i.num_prods}}"/></td>
                         {% endwith %}
-                        <td><input type="textfield" name="quantity_{{i.pk}}" value="{{i.num_prods}}"/></td>
                     </tr>
                 {% endfor %}
                 <tr>
