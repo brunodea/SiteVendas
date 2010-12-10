@@ -1,5 +1,6 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.http import HttpResponseRedirect
 from products.forms import AddProductForm
 import products.forms
 from products.models import Brand, Category, ProductType, Product
@@ -49,6 +50,19 @@ def searchProducts(request):
             objects = Product.objects.filter(brand__name__startswith=request.GET[searchField])
 
     return listProducts(request=request, objects=objects)
+
+
+def viewProduct(request, product_id, template_name='products/view_product.html'):
+    idnum = int(product_id)
+
+    try:
+        product = Product.objects.get(pk=idnum)
+    except Product.DoesNotExist:
+        return HttpResponseRedirect('/products/')
+
+    context = {'product': product}
+    return render_to_response(template_name, context, context_instance=RequestContext(request))
+
 
 def editCategories(request, template_name='products/edit_categories.html'):
     context = {'user': request.user}

@@ -26,7 +26,7 @@
                 {% for i in cartprods %}
                     <tr align="center" style="color: #01309b; background: #dadee5;">
                         {% with i.product as p %}
-                            <td> {{ p.name }} </td>
+                            <td><a href="/products/{{ p.pk }}">{{ p.name }}</a></td>
                             <td> {{ p.price }} </td>
                             <td> {{ p.instock }} </td>
                             <td> {{ p.ptype.name }} </td>

@@ -19,6 +19,7 @@ urlpatterns = patterns('',
    (r'^admin/addproduct$', 'products.views.addProduct'),
    (r'^admin/editcategories$', 'products.views.editCategories'),
    (r'^products/$', 'products.views.searchProducts'),
+   (r'^products/(?P<product_id>\d+)$', 'products.views.viewProduct'),
    (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),  
    (r'^admin/', include(admin.site.urls))
 )

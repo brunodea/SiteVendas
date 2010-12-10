@@ -40,7 +40,7 @@
 
         {% for obj in objects %}
             <tr align="center" class="{% cycle "" "odd" %}">
-                <td> {{ obj.name }} </td>
+                <td><a href="{{ obj.pk }}">{{ obj.name }}</a></td>
                 <td> {{ obj.price }} </td>
                 <td> {{ obj.instock }} </td>
                 <td> {{ obj.ptype.name }} </td>

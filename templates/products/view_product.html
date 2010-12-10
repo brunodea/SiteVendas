@@ -1,0 +1,26 @@
+{% extends "basic/base.html" %}
+
+{% block content %}
+	<h2>{{ product.name }}</h2>
+	<hr />
+	<div style="text-align: left">
+	<ul>
+		{% if not user.is_staff %}
+			<li>
+				<form action="/user/cart/add" method="POST">
+					{% csrf_token %}
+					<input type="hidden" name="product_id" value="{{ product.id }}" />
+					<input class="quantity_textbox" type="text" name="quantity" value="1" />
+					<input type="submit" value="Adicionar ao Carrinho - {{ product.price }}" />
+				</form>
+			</li>
+		{% else %}
+			<li>Preço: {{ product.price }}</li>
+		{% endif %}
+		<li>Em estoque: {{ product.instock }}</li>
+		<li>Tipo: {{ product.ptype.name }}</li>
+		<li>Categoria: {{ product.ptype.category.name }}</li>
+		<li>Marca: {{ product.brand.name }}</li>
+	</ul>
+</div>
+{% endblock %}
