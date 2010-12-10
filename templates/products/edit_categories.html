@@ -1,0 +1,95 @@
+{% extends "basic/base.html" %}
+
+{% block content %}
+	{% if user.is_authenticated and user.is_staff %}
+		<h2 style="text-align: center">Editar Marcas/Categorias</h2>
+		<hr />
+
+		{% if brand_form.error_dict or category_form.error_dict or ptype_form.error_dict %}
+			<p style="color: red;">Por favor, corrija os erros abaixo.</p>
+		{% endif %}
+
+		<h3>Marcas</h3>
+		<form action="." method="POST">
+			{% csrf_token %}
+			<input type="hidden" name="operation" value="brand" />
+			<table align="center">
+				<tr>
+					<td align="left"><label for="id_brand">Marca:</label></td><td> {{ brand_form.brand }}</td>
+					{% if brand_form.brand.errors %}
+						<td style="color: red;">{{ brand_form.brand.errors }}</td>
+					{% endif %}
+				</tr>
+
+				<tr>
+					<td align="left"><label for="id_new_name">Nome:</label></td><td> {{ brand_form.new_name }}</td>
+					{% if brand_form.new_name.errors %}
+						<td style="color: red;">{{ brand_form.new_name.errors }}</td>
+					{% endif %}
+				</tr>
+
+				<tr>
+					<td colspan="2"><input type="submit" value="Atualizar/Adicionar" /></td>
+				</tr>
+			</table>
+		</form>
+
+		<h3>Categorias</h3>
+		<form action="." method="POST">
+			{% csrf_token %}
+			<input type="hidden" name="operation" value="category" />
+			<table align="center">
+				<tr>
+					<td align="left"><label for="id_category">Categoria:</label></td><td> {{ category_form.category }}</td>
+					{% if category_form.category.errors %}
+						<td style="color: red;">{{ category_form.category.errors }}</td>
+					{% endif %}
+				</tr>
+
+				<tr>
+					<td align="left"><label for="id_new_name">Nome:</label></td><td> {{ category_form.new_name }}</td>
+					{% if category_form.new_name.errors %}
+						<td style="color: red;">{{ category_form.new_name.errors }}</td>
+					{% endif %}
+				</tr>
+
+				<tr>
+					<td colspan="2"><input type="submit" value="Atualizar/Adicionar" /></td>
+				</tr>
+			</table>
+		</form>
+
+		<h3>Tipos</h3>
+		<form action="." method="POST">
+			{% csrf_token %}
+			<input type="hidden" name="operation" value="ptype" />
+			<table align="center">
+				<tr>
+					<td align="left"><label for="id_ptype">Tipo:</label></td><td> {{ ptype_form.ptype }}</td>
+					{% if ptype_form.ptype.errors %}
+						<td style="color: red;">{{ ptype_form.ptype.errors }}</td>
+					{% endif %}
+				</tr>
+
+				<tr>
+					<td align="left"><label for="id_new_name">Nome:</label></td><td> {{ ptype_form.new_name }}</td>
+					{% if ptype_form.new_name.errors %}
+						<td style="color: red;">{{ ptype_form.new_name.errors }}</td>
+					{% endif %}
+				</tr>
+
+				<tr>
+					<td colspan="2"><input type="submit" value="Atualizar/Adicionar" /></td>
+				</tr>
+			</table>
+		</form>
+	{% else %}
+		<h2 style="text-align: center">
+			{% if not user.is_staff %}
+				Você não deveria estar aqui...<br>
+				<a href="/">voltar</a>
+			{% endif %}
+		</h2>
+		<hr/>
+	{% endif %}
+{% endblock %}
