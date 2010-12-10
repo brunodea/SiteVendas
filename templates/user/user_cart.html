@@ -11,8 +11,8 @@
     
     <hr />
 
-    <form action="." method="POST">
-     {% csrf_token %}
+    <form action="{{ request.path }}" method="POST">
+        {% csrf_token %}
         <table align="center" cellpadding="10" border="0">
             {% if objects and not user.is_staff %}
                 <tr align="center" style="color: #00133f; background: #6f81ac;">

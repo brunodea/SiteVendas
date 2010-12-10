@@ -10,7 +10,7 @@
 				<p style="color: red;">Por favor, corrija os erros abaixo.</p>
 			{% endif %}
 
-			<form action="." method="POST">
+			<form action="{{ request.path }}" method="POST">
 				<!-- Token necessário para evitar a duplicação de informação enviada via formulário. -->
 				{% csrf_token %}
 				<table align="center">
@@ -78,8 +78,6 @@
 
 		<hr />
 
-		<form action="/profile/" method="GET">
-			<center><a href="/login/">Vá para a página de login.</a></center>
-		</form>
+		<div style="text-align: center"><a href="/user/login">Vá para a página de login.</a></div>
 	{% endif %}
 {% endblock %}

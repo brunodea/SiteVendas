@@ -5,20 +5,18 @@ from django.contrib.auth.views import login, logout
 from django.contrib import admin
 from django.conf import settings
 
-from users.views import register
-
 admin.autodiscover()
 
 urlpatterns = patterns('',
    (r'^$', 'users.views.index'),
-   (r'^login/', login),
-   (r'^logout/', logout),
-   (r'^register/', register),
-   (r'^user/cart/', 'users.views.userCart'),
-   (r'^search/', 'products.views.searchProduct'),
-   (r'^admin/addproduct/', 'products.views.addProduct'),
-   (r'^admin/editcategories/', 'products.views.editCategories'),
-   (r'^listproducts/', 'products.views.listProducts'),
+   (r'^user/login$', login),
+   (r'^user/logout$', logout),
+   (r'^user/register$', 'users.views.register'),
+   (r'^user/cart/$', 'users.views.userCart'),
+   (r'^search/$', 'products.views.searchProduct'),
+   (r'^admin/addproduct$', 'products.views.addProduct'),
+   (r'^admin/editcategories$', 'products.views.editCategories'),
+   (r'^products/$', 'products.views.listProducts'),
    (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),  
    (r'^admin/', include(admin.site.urls))
 )

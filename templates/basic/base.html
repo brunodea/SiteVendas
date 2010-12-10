@@ -19,14 +19,14 @@
 				<h3 style="text-align: center">Aqui você encontra TUDO o que precisa!</h3>
 				<h5 style="text-align: right">
 					{% if not user.is_authenticated %}
-						<a href="/login/">login</a> / <a href="/register/">cadastro</a>
+						<a href="/user/login">login</a> / <a href="/user/register">cadastro</a>
 					{% else %}
 						Bem vindo, {{ user.get_full_name }}
 						{% if user.is_staff %}
 							<i>(admin)</i>
 						{% endif %}
 
-						<a href="/logout/">sair</a>
+						<a href="/user/logout">sair</a>
 					{% endif %}
 				</h5>
 			</div>
@@ -37,11 +37,11 @@
 				</div>
 
 				<div class="element" style="background: #548db1;">
-					<a href="/listproducts/">Buscar</a>
+					<a href="/products/">Buscar</a>
 				</div>
 
 				{% if user.is_authenticated and user.is_staff %}
-					<div class="element" style="background: #657e8e;"><a href="/admin/addproduct/">Adicionar Produto</a></div>
+					<div class="element" style="background: #657e8e;"><a href="/admin/addproduct">Adicionar Produto</a></div>
 				{% else %}
 					<div class="element" style="background: #657e8e;"><a href="/user/cart/">Carrinho de Compras</a></div>
 				{% endif %}

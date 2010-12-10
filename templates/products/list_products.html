@@ -7,7 +7,7 @@
 
 {% block content %}
 
-    <form action="/search/" method="GET">
+    <form action="{{ request.path }}" method="GET">
         <table align="center">
             <tr>
                 <th> Busca: </th>

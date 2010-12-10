@@ -9,7 +9,7 @@
 		<p class="error" style="color: red;">Desculpe, nome de usuário ou senha incorretos.</p>
 	{% endif %}
 
-	<form action="." method="POST">
+	<form action="{{ request.path }}" method="POST">
 		{% csrf_token %}
 		<label for="username">Nome de usuário:</label>
 		<input type="text" name="username" value="" id="username" />

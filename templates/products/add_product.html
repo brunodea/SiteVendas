@@ -9,7 +9,7 @@
 			<p style="color: red;">Por favor, corrija os erros abaixo.</p>
 		{% endif %}
 
-		<form action="." method="POST">
+		<form action="{{ request.path }}" method="POST">
 			{% csrf_token %}
 			<table align="center">
 				<tr>
@@ -48,7 +48,7 @@
 				</tr>
 
 				<tr>
-					<td colspan="2"><input type="submit" value="Cadastrar" /> - <a href="../editcategories/">Gerenciar Categorias/Marcas</a></td>
+					<td colspan="2"><input type="submit" value="Cadastrar" /> - <a href="editcategories">Gerenciar Categorias/Marcas</a></td>
 				</tr>
 			</table>
 		</form>

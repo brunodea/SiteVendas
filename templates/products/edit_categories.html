@@ -10,7 +10,7 @@
 		{% endif %}
 
 		<h3>Marcas</h3>
-		<form action="." method="POST">
+		<form action="{{ request.path }}" method="POST">
 			{% csrf_token %}
 			<input type="hidden" name="operation" value="brand" />
 			<table align="center">
@@ -35,7 +35,7 @@
 		</form>
 
 		<h3>Categorias</h3>
-		<form action="." method="POST">
+		<form action="{{ request.path }}" method="POST">
 			{% csrf_token %}
 			<input type="hidden" name="operation" value="category" />
 			<table align="center">
@@ -60,7 +60,7 @@
 		</form>
 
 		<h3>Tipos</h3>
-		<form action="." method="POST">
+		<form action="{{ request.path }}" method="POST">
 			{% csrf_token %}
 			<input type="hidden" name="operation" value="ptype" />
 			<table align="center">
